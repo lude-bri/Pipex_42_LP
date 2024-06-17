@@ -12,6 +12,7 @@ void	execute(const char *pathname, char const **av, char const **envp)
 
 	if (!path || !av || !envp)
 		return ;
+	execve(...)
 
 }
 
