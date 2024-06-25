@@ -37,7 +37,7 @@ void	child_process(char **av, int fd, char const **envp)
 	dup2(fd[1], stdout);
 	dup2(av[1], stdin);
 	close(fd[0]);
-	execute(av[1], envp);
+	execute(av[2], envp);
 }
 
 void	parent_process(char **av, int fd, char const **envp)
@@ -50,13 +50,21 @@ void	parent_process(char **av, int fd, char const **envp)
 	dup2(fd[0], stdin);
 	dup2(av[4], stdout);
 	close(fd[1]);
-	execute(av[4], envp);
+	execute(av[3], envp);
 }
 
-void	execute(char const **av, char const **envp)
+void	execute(char *av, char const **envp)
 {
 	if (!av || !envp)
 		return ;
-
-	execve();
+	//for executing, its necessary to find the path!
+	//why? because its needed to execute the cmd!
+	//How to find the path?
+	
+	char	**cmd; //command to be found
+	char	*path; //path to be found
+	
+	cmd = ft_split(av, ' ');
+	path = find_path(av[0], envp);
+	execve(path, cmd, envp);
 }
