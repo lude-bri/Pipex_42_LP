@@ -3,28 +3,29 @@
 
 char	*find_path(char *cmd, char **envp)
 {
-	// to find path i need to use the envp
-	get_env("PATH=", envp);
-	
-}
-
-char	*get_env(char *name, char **envp)
-{
-	int		i;
-	int		j;
+	char	**full_path;
+	char	*half_path;
 	char	*path;
+	int		i;
 
 	i = 0;
-	while (envp[i])
+	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
+		i++;
+	full_path = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (full_path[i])
 	{
-		j = 0;
-		while (!ft_strncmp(envp, name, ft_strlen(name)))
-		{
-			while (envp[i][j] && envp[i][j] != '=')
-				j++;
-			path = ft_substr(envp[i], j, (ft_strlen(envp[i]) - j));
-		}
-		printf("%s\n", path);
+		half_path = ft_strjoin(full_path[i], "/");
+		path = ft_strjoin(half_path, cmd);
+		free(half_path);
+		if (access(path, F_OK | X_OK) == 0)
+			return (path);
+		free(path);
+		i++;
 	}
-	return (path);
+	i = 0;
+	while (full_path[i++])
+		free (full_path[i]);
+	free (full_path);
+	return (0);
 }
