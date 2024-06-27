@@ -1,6 +1,17 @@
-#include "pipex.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: luigi <luigi@student.42porto.com>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/27 15:38:06 by luigi             #+#    #+#             */
+/*   Updated: 2024/06/27 15:38:09 by luigi            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//PIPEX
+#include "pipex.h"
+#include "lib/libft_42/libft.h"
 //Must execute ./pipex file1 cmd1 cmd2 file2
 //MUst behave < file1 cmd1 | cmd2 file2
 
@@ -8,7 +19,7 @@ void	child_process(char **av, int *fd, char **envp);
 void	parent_process(char **av, int *fd, char **envp);
 void	execute(char *av, char **envp);
 
-int main (int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -32,7 +43,7 @@ int main (int ac, char **av, char **envp)
 
 void	child_process(char **av, int *fd, char **envp)
 {
-	int fd_op;
+	int	fd_op;
 
 	close(fd[0]);
 	fd_op = open(av[1], O_RDONLY, 0777);
@@ -43,9 +54,9 @@ void	child_process(char **av, int *fd, char **envp)
 	execute(av[2], envp);
 }
 
-void	parent_process(char **av, int *fd, char  **envp)
+void	parent_process(char **av, int *fd, char **envp)
 {
-	int fd_op;
+	int	fd_op;
 
 	close(fd[1]);
 	fd_op = open(av[4], O_RDWR, 0777);
@@ -58,14 +69,8 @@ void	parent_process(char **av, int *fd, char  **envp)
 
 void	execute(char *av, char **envp)
 {
-	if (!av || !envp)
-		return ;
-	//for executing, its necessary to find the path!
-	//why? because its needed to execute the cmd!
-	//How to find the path?
-	
-	char	**cmd; //command to be found
-	char	*path; //path to be found
+	char	**cmd;
+	char	*path;
 	int		i;
 
 	i = 0;

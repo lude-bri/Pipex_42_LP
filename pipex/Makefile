@@ -1,8 +1,4 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
+
 #==============================================================================#
 #                                  MAKE CONFIG                                 #
 #==============================================================================#
@@ -38,6 +34,7 @@ LIBS_PATH		= lib
 BUILD_PATH		= .build
 TEMP_PATH		= .temp
 TESTS_PATH		= files
+LIBFT_PATH		= $(LIBS_PATH)
 
 FILES	= pipex.c
 FILES	+= utils.c
@@ -47,6 +44,8 @@ FILES	+= utils.c
 SRC		= $(addprefix $(SRC_PATH)/, $(FILES))
 
 OBJS	= $(SRC:$(SRC_PATH)/%.c=$(BUILD_PATH)/%.o)
+
+LIBFT_ARC	= $(LIBFT_PATH)libft.a
 
 #==============================================================================#
 #                              COMPILER & FLAGS                                #
@@ -73,11 +72,11 @@ MKDIR_P	= mkdir -p
 
 ##@ pipex Compilation Rules 🏗
 
-all: $(BUILD_PATH) $(NAME)	## Compile Mandatory version
+all: deps $(BUILD_PATH) $(NAME) ## Compile Mandatory version
 
-$(NAME): $(BUILD_PATH) deps $(OBJS)			## Compile Mandatory version
+$(NAME): $(LIBFT_ARC) $(BUILD_PATH) $(OBJS)			## Compile Mandatory version
 	@echo "$(YEL)Compiling $(MAG)$(NAME)$(YEL) mandatory version$(D)"
-	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(NAME) -L $(LIBFT_PATH) -lft 
 	@echo "[$(_SUCCESS) compiling $(MAG)$(NAME)$(D) $(YEL)🖔$(D)]"
 	make norm
 
@@ -101,7 +100,7 @@ $(TEMP_PATH):
 	@echo "* $(YEL)Creating $(CYA)$(TEMP_PATH)$(YEL) folder:$(D) $(_SUCCESS)"
 
 $(LIBFT_ARC):
-	$(MAKE) $(LIBFT_PATH) extra
+	$(MAKE) $(LIBFT_PATH)
 
 get_libft:
 	@echo "* $(CYA)Getting Libft submodule$(D)]"
@@ -247,7 +246,7 @@ help: 			## Display this help page
 ## Tweaked from source:
 ### https://www.padok.fr/en/blog/beautiful-makefile-awk
 
-.PHONY: bonus extrall clean fclean re help
+.PHONY: bonus clean fclean re help
 
 #==============================================================================#
 #                                  UTILS                                       #
@@ -278,3 +277,4 @@ BWHI	= $(shell tput setaf 15)
 D 		= $(shell tput sgr0)
 BEL 	= $(shell tput bel)
 CLR 	= $(shell tput el 1)
+
