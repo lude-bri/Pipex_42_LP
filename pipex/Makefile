@@ -1,4 +1,8 @@
-
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
 #==============================================================================#
 #                                  MAKE CONFIG                                 #
 #==============================================================================#
@@ -71,7 +75,7 @@ MKDIR_P	= mkdir -p
 
 all: $(BUILD_PATH) $(NAME)	## Compile Mandatory version
 
-$(NAME): $(BUILD_PATH) $(OBJS)			## Compile Mandatory version
+$(NAME): $(BUILD_PATH) deps $(OBJS)			## Compile Mandatory version
 	@echo "$(YEL)Compiling $(MAG)$(NAME)$(YEL) mandatory version$(D)"
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(NAME)
 	@echo "[$(_SUCCESS) compiling $(MAG)$(NAME)$(D) $(YEL)🖔$(D)]"
