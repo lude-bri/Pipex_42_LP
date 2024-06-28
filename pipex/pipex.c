@@ -37,7 +37,11 @@ int	main(int ac, char **av, char **envp)
 		waitpid(pid, NULL, 0);
 		parent_process(av, fd, envp);
 	}
-	ft_putstr_fd("Not Valid! Try ./pipex file1 cmd1 cmd2 file2\n", 0);
+	else
+	{
+		ft_putstr_fd("Not Valid! Try ./pipex file1 cmd1 cmd2 file2\n", 0);
+		exit (127);
+	}
 	return (0);
 }
 

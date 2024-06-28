@@ -1,0 +1,114 @@
+./draft.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: SPACE_BEFORE_FUNC    (line:   5, col:   4):	space before function name
+Error: EXP_PARENTHESIS      (line:   5, col:   9):	Expected parenthesis
+Error: SPACE_REPLACE_TAB    (line:   7, col:   8):	Found space when expecting tab
+Error: DECL_ASSIGN_LINE     (line:   7, col:  12):	Declaration and assignation on a single line
+Error: WRONG_SCOPE_COMMENT  (line:   7, col:  22):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:   7, col:  22):	Comment is invalid in this scope
+Error: VAR_DECL_START_FUNC  (line:   8, col:   1):	Variable declaration not at start of function
+Error: SPACE_REPLACE_TAB    (line:   8, col:   8):	Found space when expecting tab
+Error: WRONG_SCOPE_COMMENT  (line:   9, col:  18):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:   9, col:  18):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  11, col:  10):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  11, col:  10):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  13, col:  18):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  13, col:  18):	Comment is invalid in this scope
+Error: EMPTY_LINE_FUNCTION  (line:  15, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line:  15, col:   1):	Space on empty line
+Error: VAR_DECL_START_FUNC  (line:  16, col:   1):	Variable declaration not at start of function
+Error: SPACE_REPLACE_TAB    (line:  16, col:   8):	Found space when expecting tab
+Error: FORBIDDEN_CS         (line:  17, col:   5):	Forbidden control structure
+Error: CONSECUTIVE_NEWLINES (line:  27, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line:  28, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line:  29, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line:  30, col:   1):	Consecutive newlines
+Error: SPACE_BEFORE_FUNC    (line:  32, col:   4):	space before function name
+Error: EXP_PARENTHESIS      (line:  32, col:   9):	Expected parenthesis
+Error: SPACE_REPLACE_TAB    (line:  34, col:   8):	Found space when expecting tab
+Error: WRONG_SCOPE_COMMENT  (line:  35, col:   5):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  36, col:   5):	Comment is invalid in this scope
+Error: VAR_DECL_START_FUNC  (line:  42, col:   1):	Variable declaration not at start of function
+Error: SPACE_REPLACE_TAB    (line:  42, col:   8):	Found space when expecting tab
+Error: DECL_ASSIGN_LINE     (line:  42, col:  12):	Declaration and assignation on a single line
+Error: WRONG_SCOPE_COMMENT  (line:  48, col:  18):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  48, col:  18):	Comment is invalid in this scope
+Error: WRONG_SCOPE_VAR      (line:  51, col:   1):	Variable declared in incorrect scope
+Error: SPACE_REPLACE_TAB    (line:  51, col:  12):	Found space when expecting tab
+Error: WRONG_SCOPE_COMMENT  (line:  61, col:  10):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  61, col:  10):	Comment is invalid in this scope
+Error: WRONG_SCOPE_VAR      (line:  64, col:   1):	Variable declared in incorrect scope
+Error: SPACE_REPLACE_TAB    (line:  64, col:  12):	Found space when expecting tab
+Error: TAB_INSTEAD_SPC      (line:  70, col:  23):	Found tab when expecting space
+Error: EMPTY_LINE_FUNCTION  (line:  72, col:   1):	Empty line in function
+Error: CONSECUTIVE_NEWLINES (line:  73, col:   1):	Consecutive newlines
+Error: EMPTY_LINE_FUNCTION  (line:  73, col:   1):	Empty line in function
+Error: TOO_MANY_LINES       (line:  75, col:   1):	Function has more than 25 lines
+Error: CONSECUTIVE_NEWLINES (line:  77, col:   1):	Consecutive newlines
+Error: SPACE_BEFORE_FUNC    (line:  79, col:   4):	space before function name
+Error: EXP_PARENTHESIS      (line:  79, col:   9):	Expected parenthesis
+Error: SPACE_REPLACE_TAB    (line:  81, col:   8):	Found space when expecting tab
+Error: NL_AFTER_VAR_DECL    (line:  82, col:   1):	Variable declarations must be followed by a newline
+Error: EMPTY_LINE_FUNCTION  (line:  84, col:   1):	Empty line in function
+Error: WRONG_SCOPE_COMMENT  (line:  85, col:   5):	Comment is invalid in this scope
+Error: EMPTY_LINE_FUNCTION  (line:  86, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line:  86, col:   1):	Space on empty line
+Error: WRONG_SCOPE_COMMENT  (line:  87, col:   5):	Comment is invalid in this scope
+Error: VAR_DECL_START_FUNC  (line:  88, col:   1):	Variable declaration not at start of function
+Error: SPACE_REPLACE_TAB    (line:  88, col:   8):	Found space when expecting tab
+Error: DECL_ASSIGN_LINE     (line:  88, col:  14):	Declaration and assignation on a single line
+Error: RETURN_PARENTHESIS   (line:  90, col:  16):	Return value must be in parenthesis
+Error: EMPTY_LINE_FUNCTION  (line:  91, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line:  91, col:   1):	Space on empty line
+Error: WRONG_SCOPE_COMMENT  (line:  92, col:  20):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  92, col:  20):	Comment is invalid in this scope
+Error: EMPTY_LINE_FUNCTION  (line:  99, col:   1):	Empty line in function
+Error: WRONG_SCOPE_COMMENT  (line: 100, col:   5):	Comment is invalid in this scope
+Error: VAR_DECL_START_FUNC  (line: 101, col:   1):	Variable declaration not at start of function
+Error: SPACE_REPLACE_TAB    (line: 101, col:   8):	Found space when expecting tab
+Error: DECL_ASSIGN_LINE     (line: 101, col:  14):	Declaration and assignation on a single line
+Error: EMPTY_LINE_FUNCTION  (line: 110, col:   1):	Empty line in function
+Error: EMPTY_LINE_FUNCTION  (line: 112, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line: 112, col:   1):	Space on empty line
+Error: EMPTY_LINE_FUNCTION  (line: 118, col:   1):	Empty line in function
+Error: TOO_MANY_LINES       (line: 119, col:   1):	Function has more than 25 lines
+Error: CONSECUTIVE_NEWLINES (line: 121, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 122, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 123, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 124, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 125, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 126, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 127, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 128, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 129, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 130, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 131, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 132, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 133, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 134, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 135, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 136, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 137, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 138, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 139, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 140, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 141, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 142, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 143, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 144, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 145, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 146, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 147, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 148, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 149, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 150, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 151, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 152, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 153, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 154, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 155, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 156, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 157, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 158, col:   1):	Consecutive newlines
+Error: CONSECUTIVE_NEWLINES (line: 159, col:   1):	Consecutive newlines
+Error: EMPTY_LINE_EOF       (line: 159, col:   1):	Empty line at end of file
