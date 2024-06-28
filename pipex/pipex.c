@@ -52,7 +52,10 @@ void	child_process(char **av, int *fd, char **envp)
 	close(fd[0]);
 	fd_op = open(av[1], O_RDONLY, 0777);
 	if (fd_op == -1)
+	{
 		perror("An error ocurred with opening the fd in child\n");
+		exit (127);
+	}
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(fd_op, STDIN_FILENO);
 	execute(av[2], envp);
@@ -65,7 +68,10 @@ void	parent_process(char **av, int *fd, char **envp)
 	close(fd[1]);
 	fd_op = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd_op == -1)
+	{
 		perror("An error ocurred with opening the fd in parent\n");
+		exit (127);
+	}
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd_op, STDOUT_FILENO);
 	execute(av[3], envp);
