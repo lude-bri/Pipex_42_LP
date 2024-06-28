@@ -41,7 +41,7 @@ int	main(int ac, char **av, char **envp)
 		ft_putstr_fd("Not Valid! Try ./pipex file1 cmd1 cmd2 file2\n", 2);
 		exit (127);
 	}
-	return (errno);
+	return (1);
 }
 
 void	child_process(char **av, int *fd, char **envp)
@@ -52,7 +52,7 @@ void	child_process(char **av, int *fd, char **envp)
 	fd_op = open(av[1], O_RDONLY, 0777);
 	if (fd_op == -1)
 	{
-		perror("child");
+		perror(av[1]);
 		exit (127);
 	}
 	dup2(fd[1], STDOUT_FILENO);
@@ -68,7 +68,7 @@ void	parent_process(char **av, int *fd, char **envp)
 	fd_op = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd_op == -1)
 	{
-		perror("parent");
+		perror(av[4]);
 		exit (127);
 	}
 	dup2(fd[0], STDIN_FILENO);
@@ -90,17 +90,13 @@ void	execute(char *av, char **envp)
 		while (cmd[i])
 			free (cmd[i++]);
 		free(cmd);
-		//ft_putstr_fd("command not found\n", 2);
-		perror("path");
+		ft_putstr_fd("command not found\n", 2);
 		exit(127);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
-		//free(path);
 		while (cmd[i])
 			free(cmd[i++]);
-		//free(cmd);
-		perror ("execve");
 		exit(EXIT_FAILURE);
 	}
 }
