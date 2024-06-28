@@ -1,3 +1,6 @@
-*/.temp
-*/lib
+.temp/
+lib/
 pipex
+.build/
+draft.c
+

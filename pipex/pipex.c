@@ -88,8 +88,7 @@ void	execute(char *av, char **envp)
 		perror("An error ocurred with path");
 	}
 	execve(path, cmd, envp);
-	while(path[i++])
-		free(path[i]);
+	free(path);
 	free(cmd);
 	perror ("An error ocurred with execve");
 }
