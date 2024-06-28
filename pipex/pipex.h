@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <errno.h>
 
 char	*find_path(char *cmd, char **envp);
 void	child_process(char **av, int *fd, char **envp);

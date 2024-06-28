@@ -28,21 +28,20 @@ int	main(int ac, char **av, char **envp)
 	{
 		pipe(fd);
 		if (pipe(fd) == -1)
-			perror("An error ocurred with opening the pipe\n");
+			perror("pipe");
 		pid = fork();
 		if (pid == -1)
-			perror("An error occured with fork\n");
+			perror("fork");
 		else if (pid == 0)
 			child_process(av, fd, envp);
-		waitpid(pid, NULL, 0);
 		parent_process(av, fd, envp);
 	}
 	else
 	{
-		ft_putstr_fd("Not Valid! Try ./pipex file1 cmd1 cmd2 file2\n", 0);
+		ft_putstr_fd("Not Valid! Try ./pipex file1 cmd1 cmd2 file2\n", 2);
 		exit (127);
 	}
-	return (0);
+	return (errno);
 }
 
 void	child_process(char **av, int *fd, char **envp)
@@ -53,7 +52,7 @@ void	child_process(char **av, int *fd, char **envp)
 	fd_op = open(av[1], O_RDONLY, 0777);
 	if (fd_op == -1)
 	{
-		perror("An error ocurred with opening the fd in child\n");
+		perror("child");
 		exit (127);
 	}
 	dup2(fd[1], STDOUT_FILENO);
@@ -69,7 +68,7 @@ void	parent_process(char **av, int *fd, char **envp)
 	fd_op = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd_op == -1)
 	{
-		perror("An error ocurred with opening the fd in parent\n");
+		perror("parent");
 		exit (127);
 	}
 	dup2(fd[0], STDIN_FILENO);
@@ -88,14 +87,20 @@ void	execute(char *av, char **envp)
 	path = find_path(cmd[0], envp);
 	if (!path)
 	{
-		while (cmd[i++])
-			free (cmd[i]);
+		while (cmd[i])
+			free (cmd[i++]);
 		free(cmd);
-		perror("An error ocurred with path");
+		//ft_putstr_fd("command not found\n", 2);
+		perror("path");
+		exit(127);
 	}
-	execve(path, cmd, envp);
-	free(path);
-	while (cmd[i++])
-		free(cmd[i]);
-	perror ("An error ocurred with execve");
+	if (execve(path, cmd, envp) == -1)
+	{
+		//free(path);
+		while (cmd[i])
+			free(cmd[i++]);
+		//free(cmd);
+		perror ("execve");
+		exit(EXIT_FAILURE);
+	}
 }

@@ -35,8 +35,8 @@ char	*find_path(char *cmd, char **envp)
 		i++;
 	}
 	i = 0;
-	while (full_path[i++])
-		free (full_path[i]);
+	while (full_path[i])
+		free (full_path[i++]);
 	free (full_path);
 	return (0);
 }
