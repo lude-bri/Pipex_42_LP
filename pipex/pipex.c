@@ -63,7 +63,7 @@ void	parent_process(char **av, int *fd, char **envp)
 	int	fd_op;
 
 	close(fd[1]);
-	fd_op = open(av[4], O_RDWR, 0777);
+	fd_op = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd_op == -1)
 		perror("An error ocurred with opening the fd in parent\n");
 	dup2(fd[0], STDIN_FILENO);
@@ -89,6 +89,7 @@ void	execute(char *av, char **envp)
 	}
 	execve(path, cmd, envp);
 	free(path);
-	free(cmd);
+	while (cmd[i++])
+		free(cmd[i]);
 	perror ("An error ocurred with execve");
 }
