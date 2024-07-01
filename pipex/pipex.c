@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "pipex.h"
-//#include "lib/libft_42/libft.h"
-//Must execute ./pipex file1 cmd1 cmd2 file2
-//MUst behave < file1 cmd1 | cmd2 file2
 
 void	child_process(char **av, int *fd, char **envp);
 void	parent_process(char **av, int *fd, char **envp);

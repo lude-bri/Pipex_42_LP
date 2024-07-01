@@ -8,13 +8,16 @@ SHELL	:= bash
 
 # Default test values
 ARG			?=
+N_OK		= 0
+N_TESTS		= 0
+N_KO		:= $(N_TESTS) - $(N_OK)
 
 #==============================================================================#
 #                                     NAMES                                    #
 #==============================================================================#
 
 UNAME 			= $(shell whoami)
-NAME 			= pipex 
+NAME 			= pipex
 
 ### Message Vars
 _SUCCESS 		= [$(GRN)SUCCESS$(D)]
@@ -41,9 +44,14 @@ FILES	+= utils.c
 #FILES	+= utils.c
 #FILES	+= pipex.h
 
+TXT_NAMES = file1.txt og_out.txt pipex_out.txt out_ok.txt out_ko.txt
+
+
 SRC		= $(addprefix $(SRC_PATH)/, $(FILES))
 
 OBJS	= $(SRC:$(SRC_PATH)/%.c=$(BUILD_PATH)/%.o)
+
+TXT		= $(addprefix $(TEMP_PATH)/, $(TXT_NAMES))
 
 LIBFT_ARC	= $(LIBFT_PATH)libft.a
 
@@ -76,7 +84,7 @@ all: deps $(BUILD_PATH) $(NAME) ## Compile Mandatory version
 
 $(NAME): $(LIBFT_ARC) $(BUILD_PATH) $(OBJS)			## Compile Mandatory version
 	@echo "$(YEL)Compiling $(MAG)$(NAME)$(YEL) mandatory version$(D)"
-	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(NAME) -L $(LIBFT_PATH) -lft 
+	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(NAME) -L $(LIBFT_PATH) -lft
 	@echo "[$(_SUCCESS) compiling $(MAG)$(NAME)$(D) $(YEL)🖔$(D)]"
 	make norm
 
@@ -145,7 +153,56 @@ check_ext_func: all		## Check for external functions
 
 ##@ Test Rules 🧪
 
+test_all:		## Test all
+	@make --no-print-directory test_invalid
+	@make --no-print-directory test_subject
+	@make --no-print-directory results
 
+test_invalid: all	## Test invalid
+	@echo "[$(YEL)Test Invalid Input:$(D)]"
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "Test 1: No Args"
+	-./$(NAME)
+	@echo "Test 2: Wrong Args"
+	-./$(NAME) wrong_wrong
+
+test_subject:		## Test subject
+	@echo "[$(YEL)Test Valid Input:$(D)]"
+	@echo "$(YEL)$(_SEP)$(D)"
+	@for f in $(TEMP_PATH)/*.txt; do \
+		if [ -f "$$f" ]; then \
+			rm $(TEMP_PATH)/*.txt; \
+			break; \
+		fi \
+	done
+	@touch $(TXT)
+	@echo "[$(YEL)Test 1:$(D)]"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "ls -l" "wc -l" "$(TEMP_PATH)/pipex_out.txt"
+	cat $(TEMP_PATH)/pipex_out.txt
+	< $(TEMP_PATH)/file1.txt ls -l | wc -l > $(TEMP_PATH)/og_out.txt
+	cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 2:$(D)]"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "ls" "wc" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	< $(TEMP_PATH)/file1.txt ls | wc > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+diff:
+	@if diff $(TEMP_PATH)/pipex_out.txt $(TEMP_PATH)/og_out.txt; then \
+		echo "$(GRN)Test passed$(D)" | tee -a $(TEMP_PATH)/out_ok.txt; \
+	else \
+		echo "$(RED)Test failed$(D)" | tee -a $(TEMP_PATH)/out_ko.txt; \
+	fi
+
+results:
+	@N_OK=$(shell wc -l < $(TEMP_PATH)/out_ok.txt) && \
+	echo "Test passed: $$N_OK"
+	@N_KO=$(shell wc -l < $(TEMP_PATH)/out_ko.txt)&& \
+	echo "Test failed: $$N_KO"
 
 ##@ Debug Rules 
 
@@ -204,8 +261,12 @@ vgdb_pid: $(NAME) $(TEMP_PATH)
 ##@ Clean-up Rules 󰃢
 
 clean: 				## Remove object files
-	@echo "*** $(YEL)Removing $(MAG)$(NAME)$(D) and deps $(YEL)object files$(D)"
-	@if [ -d "$(BUILD_PATH)" ] || [ -d "$(TEMP_PATH)" ]; then \
+	@echo "* $(YEL)Removing $(MAG)$(NAME)$(D) and deps $(YEL)object files$(D)"
+	@if [ -d "$(LIBFT_PATH)/$(BUILD_PATH)" ] || [ -d "$(BUILD_PATH)" ] || [ -d "$(TEMP_PATH)" ]; then \
+		if [ -d "$(LIBFT_PATH)/$(BUILD_PATH)" ]; then \
+			$(MAKE) $(LIBFT_PATH) clean; \
+			echo "* $(YEL)Removing $(CYA)libft$(D) object files$(D): $(_SUCCESS)"; \
+		fi; \
 		if [ -d "$(BUILD_PATH)" ]; then \
 			$(RM) $(BUILD_PATH); \
 			echo "* $(YEL)Removing $(CYA)$(BUILD_PATH)$(D) folder & files$(D): $(_SUCCESS)"; \
@@ -277,4 +338,3 @@ BWHI	= $(shell tput setaf 15)
 D 		= $(shell tput sgr0)
 BEL 	= $(shell tput bel)
 CLR 	= $(shell tput el 1)
-

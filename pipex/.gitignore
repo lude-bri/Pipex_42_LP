@@ -2,5 +2,6 @@
 lib/
 pipex
 .build/
+PIPEX_TESTER/
 draft.c
 
