@@ -12,6 +12,22 @@
 
 #include "pipex.h"
 
+void	ft_close(int *fd)
+{
+	close(fd[0]);
+	close(fd[1]);
+}
+
+void	ft_free(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		free (str[i++]);
+	free (str);
+}
+
 char	*find_path(char *cmd, char **envp)
 {
 	char	**full_path;
@@ -20,6 +36,8 @@ char	*find_path(char *cmd, char **envp)
 	int		i;
 
 	i = 0;
+	if (!envp[i])
+		return (NULL);
 	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
 	full_path = ft_split(envp[i] + 5, ':');
@@ -30,13 +48,9 @@ char	*find_path(char *cmd, char **envp)
 		path = ft_strjoin(half_path, cmd);
 		free(half_path);
 		if (access(path, F_OK | X_OK) == 0)
-			return (path);
+			return (ft_free(full_path), path);
 		free(path);
 		i++;
 	}
-	i = 0;
-	while (full_path[i])
-		free (full_path[i++]);
-	free (full_path);
-	return (0);
+	return (ft_free(full_path), NULL);
 }

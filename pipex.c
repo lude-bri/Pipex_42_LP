@@ -14,7 +14,7 @@
 
 void	child_process(char **av, int *fd, char **envp);
 void	parent_process(char **av, int *fd, char **envp);
-void	execute(char *av, char **envp);
+void	execute(char *av, char **envp, int *fd);
 
 int	main(int ac, char **av, char **envp)
 {
@@ -28,7 +28,10 @@ int	main(int ac, char **av, char **envp)
 			perror("pipe");
 		pid = fork();
 		if (pid == -1)
+		{
 			perror("fork");
+			ft_close(fd);
+		}
 		else if (pid == 0)
 			child_process(av, fd, envp);
 		parent_process(av, fd, envp);
@@ -50,11 +53,12 @@ void	child_process(char **av, int *fd, char **envp)
 	if (fd_op == -1)
 	{
 		perror(av[1]);
+		ft_close(fd);
 		exit (127);
 	}
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(fd_op, STDIN_FILENO);
-	execute(av[2], envp);
+	execute(av[2], envp, fd);
 }
 
 void	parent_process(char **av, int *fd, char **envp)
@@ -66,34 +70,32 @@ void	parent_process(char **av, int *fd, char **envp)
 	if (fd_op == -1)
 	{
 		perror(av[4]);
+		ft_close(fd);
 		exit (127);
 	}
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd_op, STDOUT_FILENO);
-	execute(av[3], envp);
+	execute(av[3], envp, fd);
 }
 
-void	execute(char *av, char **envp)
+void	execute(char *av, char **envp, int *fd)
 {
 	char	**cmd;
 	char	*path;
-	int		i;
 
-	i = 0;
 	cmd = ft_split(av, ' ');
 	path = find_path(cmd[0], envp);
 	if (!path)
 	{
-		while (cmd[i])
-			free (cmd[i++]);
-		free(cmd);
+		ft_free(cmd);
 		ft_putstr_fd("command not found\n", 2);
+		ft_close(fd);
 		exit(127);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
-		while (cmd[i])
-			free(cmd[i++]);
+		ft_free(cmd);
+		ft_close(fd);
 		exit(EXIT_FAILURE);
 	}
 }

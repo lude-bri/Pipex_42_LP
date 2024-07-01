@@ -25,6 +25,8 @@
 char	*find_path(char *cmd, char **envp);
 void	child_process(char **av, int *fd, char **envp);
 void	parent_process(char **av, int *fd, char **envp);
-void	execute(char *av, char **envp);
+void	execute(char *av, char **envp, int *fd);
+void	ft_close(int *fd);
+void	ft_free(char **str);
 
 #endif
