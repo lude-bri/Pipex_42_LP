@@ -179,6 +179,7 @@ test_subject:		## Test subject
 	@cat $(TEMP_PATH)/og_out.txt	
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 	@echo "[$(YEL)Test 2:$(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -189,6 +190,7 @@ test_subject:		## Test subject
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 test_invalid:	## Test invalid
 	@echo "[$(YEL)Test Invalid Input:$(D)]"
@@ -199,13 +201,15 @@ test_invalid:	## Test invalid
 	@cat $(TEMP_PATH)/pipex_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
-
+	@sleep 1
+	
 	@echo "[$(YEL)Test 2. Few arguments $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
 	-./$(NAME) "$(TEMP_PATH)/file1.txt" "ls"
 	@cat $(TEMP_PATH)/pipex_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 	@echo "[$(YEL)Test 3. Wrong few arguments $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -213,6 +217,7 @@ test_invalid:	## Test invalid
 	@cat $(TEMP_PATH)/pipex_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 	
 	@echo "[$(YEL)Test 4. Wrong arguments $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -223,6 +228,7 @@ test_invalid:	## Test invalid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 	@echo "[$(YEL)Test 5. Multiple wrong arguments $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -233,6 +239,7 @@ test_invalid:	## Test invalid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 	@echo "[$(YEL)Test 6. Out of scope arguments $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -243,6 +250,7 @@ test_invalid:	## Test invalid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 test_valid:	## Test valid
 	@echo "$(YEL)$(_SEP)$(D)"
@@ -259,6 +267,7 @@ test_valid:	## Test valid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 	@echo "[$(YEL)Test 2. GREP && Word Count $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -269,6 +278,7 @@ test_valid:	## Test valid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 	@echo "[$(YEL)Test 3. Head -5 && Word Count -List $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -279,6 +289,7 @@ test_valid:	## Test valid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 	
 	@echo "[$(YEL)Test 4. Tail -2 && Word Count -List $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -289,6 +300,7 @@ test_valid:	## Test valid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 	@echo "[$(YEL)Test 5. Head -5 && CAT $(D)]"
 		@echo "$(BLU)Pipex:$(D)"
@@ -299,6 +311,7 @@ test_valid:	## Test valid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 	@echo "[$(YEL)Test 6. HOSTNAME && CAT $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -309,6 +322,7 @@ test_valid:	## Test valid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 	@echo "[$(YEL)Test 7. HOSTNAME && CAT $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -319,6 +333,7 @@ test_valid:	## Test valid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 	@echo "[$(YEL)Test 8. DU && SORT $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -329,6 +344,7 @@ test_valid:	## Test valid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 	
 	@echo "[$(YEL)Test 9. SLEEP 5 && SLEEP 5 $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -339,6 +355,7 @@ test_valid:	## Test valid
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 	@echo "[$(YEL)Test 10. /DEV/URANDOM -CAT && Head -5 $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
@@ -346,6 +363,7 @@ test_valid:	## Test valid
 	@cat $(TEMP_PATH)/pipex_out.txt	
 	@echo "$(GRN)Test passed!!👌$(D)" | tee -a $(TEMP_PATH)/out_ok.txt
 	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
 
 diff:
 	@if diff $(TEMP_PATH)/pipex_out.txt $(TEMP_PATH)/og_out.txt; then \
@@ -359,9 +377,9 @@ results:
 	@echo "[$(YEL)Results $(D)]"
 	@echo "$(YEL)$(_SEP)$(D)"
 	@N_OK=$(shell wc -l < $(TEMP_PATH)/out_ok.txt) && \
-	echo "Test passed: $$N_OK"
+	echo "$(GRN)Test passed$(D): $$N_OK"
 	@N_KO=$(shell wc -l < $(TEMP_PATH)/out_ko.txt)&& \
-	echo "Test failed: $$N_KO"
+	echo "$(RED)Test failed$(D): $$N_KO"
 
 ##@ Debug Rules 
 
