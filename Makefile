@@ -9,7 +9,7 @@ SHELL	:= bash
 # Default test values
 ARG			?=
 N_OK		= 0
-N_TESTS		= 0
+N_TESTS		= 
 N_KO		:= $(N_TESTS) - $(N_OK)
 
 #==============================================================================#
@@ -156,6 +156,7 @@ check_ext_func: all		## Check for external functions
 test_all:		## Test all
 	@make --no-print-directory test_subject
 	@make --no-print-directory test_invalid
+	@make --no-print-directory test_valid
 	@make --no-print-directory results
 
 test_subject:		## Test subject
@@ -175,7 +176,7 @@ test_subject:		## Test subject
 	@cat $(TEMP_PATH)/pipex_out.txt
 	@echo "$(BLU)Original:$(D)"
 	< $(TEMP_PATH)/file1.txt ls -l | wc -l > $(TEMP_PATH)/og_out.txt
-	@cat $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt	
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
 
@@ -243,6 +244,108 @@ test_invalid:	## Test invalid
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
 
+test_valid:	## Test valid
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test Valid Input:$(D)]"
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 1. Word Count && List $(D)]"
+	@echo "$(BLU)P✌️ipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" ls wc "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt ls | wc > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "[$(YEL)Test 2. GREP && Word Count $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) Makefile "grep $$" "wc" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< Makefile grep $$ | wc > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "[$(YEL)Test 3. Head -5 && Word Count -List $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) Makefile "head -5" "wc -l" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< Makefile head -5 | wc -l > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	
+	@echo "[$(YEL)Test 4. Tail -2 && Word Count -List $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) Makefile "tail -2" "wc -l" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< Makefile tail -2 | wc -l > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "[$(YEL)Test 5. Head -5 && CAT $(D)]"
+		@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) Makefile "head -5" "cat" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< Makefile head -5 | cat > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "[$(YEL)Test 6. HOSTNAME && CAT $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "/usr/bin/hostname" "hostname" "cat" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< /usr/bin/hostname hostname | cat > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "[$(YEL)Test 7. HOSTNAME && CAT $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "/usr/bin/ps" "ps" "grep PID" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< /usr/bin/ps ps | grep PID > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "[$(YEL)Test 8. DU && SORT $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "/usr/bin/" "du" "sort" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< /usr/bin/ du | sort > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	
+	@echo "[$(YEL)Test 9. SLEEP 5 && SLEEP 5 $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "/usr/bin/" "sleep 5" "sleep 5" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< /usr/bin/ sleep 5 | sleep 5 > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "[$(YEL)Test 10. /DEV/URANDOM -CAT && Head -5 $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	-./$(NAME) "/dev/urandom" cat "head -5" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt	
+	@echo "$(GRN)Test passed!!👌$(D)" | tee -a $(TEMP_PATH)/out_ok.txt
+	@echo "$(YEL)$(_SEP)$(D)"
 
 diff:
 	@if diff $(TEMP_PATH)/pipex_out.txt $(TEMP_PATH)/og_out.txt; then \
@@ -252,6 +355,9 @@ diff:
 	fi
 
 results:
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Results $(D)]"
+	@echo "$(YEL)$(_SEP)$(D)"
 	@N_OK=$(shell wc -l < $(TEMP_PATH)/out_ok.txt) && \
 	echo "Test passed: $$N_OK"
 	@N_KO=$(shell wc -l < $(TEMP_PATH)/out_ko.txt)&& \
