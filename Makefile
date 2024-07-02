@@ -90,7 +90,7 @@ $(NAME): $(LIBFT_ARC) $(BUILD_PATH) $(OBJS)			## Compile Mandatory version
 
 deps:		## Download/Update deps
 	@if test ! -d "$(LIBFT_PATH)"; then make get_libft; \
-		else echo "$(YEL)[libft]$(D) folder found 🖔"; fi
+		else echo "$(YEL)[libft]$(D) folder found ✌️"; fi
 	@echo " $(RED)$(D) [$(GRN)Nothing to be done!$(D)]"
 
 -include $(BUILD_PATH)/%.d
@@ -116,7 +116,7 @@ get_libft:
 		git clone git@github.com:lude-bri/libft_42_LP.git $(LIBFT_PATH); \
 		echo "* $(GRN)Libft submodule download$(D): $(_SUCCESS)"; \
 	else \
-		echo "* $(GRN)Libft submodule already exists 🖔"; \
+		echo "* $(GRN)Libft submodule already exists ✌️"; \
 	echo " $(RED)$(D) [$(GRN)Nothing to be done!$(D)]"; \
 	fi
 
@@ -154,20 +154,13 @@ check_ext_func: all		## Check for external functions
 ##@ Test Rules 🧪
 
 test_all:		## Test all
-	@make --no-print-directory test_invalid
 	@make --no-print-directory test_subject
+	@make --no-print-directory test_invalid
 	@make --no-print-directory results
 
-test_invalid: all	## Test invalid
-	@echo "[$(YEL)Test Invalid Input:$(D)]"
-	@echo "$(YEL)$(_SEP)$(D)"
-	@echo "Test 1: No Args"
-	-./$(NAME)
-	@echo "Test 2: Wrong Args"
-	-./$(NAME) wrong_wrong
-
 test_subject:		## Test subject
-	@echo "[$(YEL)Test Valid Input:$(D)]"
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test Subject:$(D)]"
 	@echo "$(YEL)$(_SEP)$(D)"
 	@for f in $(TEMP_PATH)/*.txt; do \
 		if [ -f "$$f" ]; then \
@@ -177,25 +170,85 @@ test_subject:		## Test subject
 	done
 	@touch $(TXT)
 	@echo "[$(YEL)Test 1:$(D)]"
+	@echo "$(BLU)Pipex:$(D)"
 	./$(NAME) "$(TEMP_PATH)/file1.txt" "ls -l" "wc -l" "$(TEMP_PATH)/pipex_out.txt"
-	cat $(TEMP_PATH)/pipex_out.txt
-	< $(TEMP_PATH)/file1.txt ls -l | wc -l > $(TEMP_PATH)/og_out.txt
-	cat $(TEMP_PATH)/og_out.txt
-	@make --no-print-directory diff
-	@echo "$(YEL)$(_SEP)$(D)"
-	@echo "[$(YEL)Test 2:$(D)]"
-	./$(NAME) "$(TEMP_PATH)/file1.txt" "ls" "wc" "$(TEMP_PATH)/pipex_out.txt"
 	@cat $(TEMP_PATH)/pipex_out.txt
-	< $(TEMP_PATH)/file1.txt ls | wc > $(TEMP_PATH)/og_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt ls -l | wc -l > $(TEMP_PATH)/og_out.txt
 	@cat $(TEMP_PATH)/og_out.txt
 	@make --no-print-directory diff
 	@echo "$(YEL)$(_SEP)$(D)"
 
+	@echo "[$(YEL)Test 2:$(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "grep a1" "wc -w" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt grep a1 | wc -w > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+test_invalid:	## Test invalid
+	@echo "[$(YEL)Test Invalid Input:$(D)]"
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 1. No arguments$(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	-./$(NAME)
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "[$(YEL)Test 2. Few arguments $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	-./$(NAME) "$(TEMP_PATH)/file1.txt" "ls"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "[$(YEL)Test 3. Wrong few arguments $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	-./$(NAME) "$(TEMP_PATH)/file1.txt" "lol"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	
+	@echo "[$(YEL)Test 4. Wrong arguments $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	-./$(NAME) "$(TEMP_PATH)/file1.txt" "lol1" "lol2" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	-< $(TEMP_PATH)/file1.txt lol1 | lol2 > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "[$(YEL)Test 5. Multiple wrong arguments $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	-./$(NAME) "$(TEMP_PATH)/file1.txt" "ls -lol1" "wc -lol2" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	-< $(TEMP_PATH)/file1.txt ls -lol1 | wc -lol2 > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "[$(YEL)Test 6. Out of scope arguments $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	-./$(NAME) "$(TEMP_PATH)/file1.txt" "grep $" "'awk '{ if (length($0) > max) max = length($0) } END { print max }'" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	-< $(TEMP_PATH)/file1.txt grep $ | 'awk '{ if (length($0) > max) max = length($0) } END { print max }'' > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+
+
 diff:
 	@if diff $(TEMP_PATH)/pipex_out.txt $(TEMP_PATH)/og_out.txt; then \
-		echo "$(GRN)Test passed$(D)" | tee -a $(TEMP_PATH)/out_ok.txt; \
+		echo "$(GRN)Test passed!!👌$(D)" | tee -a $(TEMP_PATH)/out_ok.txt; \
 	else \
-		echo "$(RED)Test failed$(D)" | tee -a $(TEMP_PATH)/out_ko.txt; \
+		echo "$(RED)Test failed D: $(D)" | tee -a $(TEMP_PATH)/out_ko.txt; \
 	fi
 
 results:
