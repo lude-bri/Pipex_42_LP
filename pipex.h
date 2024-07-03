@@ -28,5 +28,7 @@ void	parent_process(char **av, int *fd, char **envp);
 void	execute(char *av, char **envp, int *fd);
 void	ft_close(int *fd);
 void	ft_free(char **str);
+int		fd_open(char *file, int n);
+void	ft_close(int *fd);
 
 #endif

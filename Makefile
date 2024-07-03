@@ -9,7 +9,6 @@ SHELL	:= bash
 # Default test values
 ARG			?=
 N_OK		= 0
-N_TESTS		= 
 N_KO		:= $(N_TESTS) - $(N_OK)
 
 #==============================================================================#
@@ -146,7 +145,7 @@ norm: $(TEMP_PATH)		## Run norminette test on source files
 
 check_ext_func: all		## Check for external functions
 	@echo "[$(YEL)Checking for external functions$(D)]"
-	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "$(YEL)$(_SEPcmd)$(D)"
 	@echo "$(CYA)Reading binary$(D): $(MAG)$(NAME)$(D)"
 	nm ./$(NAME) | grep "U" | grep -v "__" | tee $(TEMP_PATH)/ext_func.txt
 	@echo "$(YEL)$(_SEP)$(D)"
@@ -324,7 +323,7 @@ test_valid:	## Test valid
 	@echo "$(YEL)$(_SEP)$(D)"
 	@sleep 1
 
-	@echo "[$(YEL)Test 7. HOSTNAME && CAT $(D)]"
+	@echo "[$(YEL)Test 7. PS && GREP PID $(D)]"
 	@echo "$(BLU)Pipex:$(D)"
 	./$(NAME) "/usr/bin/ps" "ps" "grep PID" "$(TEMP_PATH)/pipex_out.txt"
 	@cat $(TEMP_PATH)/pipex_out.txt
