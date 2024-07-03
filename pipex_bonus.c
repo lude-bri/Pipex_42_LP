@@ -32,7 +32,7 @@ int	main(int ac, char **av, char **envp)
 		else
 		{
 			i = 2;
-			fd_in = fd_open(av[1], 0);
+			fd_in = fd_open(av[1], 2);
 			fd_out = fd_open(av[ac -1], 1);
 			dup2(fd_in, STDIN_FILENO);
 		}
@@ -84,7 +84,7 @@ void	here_doc(char *limiter, int ac)
 		close(fd[0]);
 		while (get_next_line(&line))
 		{
-			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+			if (ft_strncmp(line, limiter, ft_strlen(line)) == 0)
 				exit(0);
 			write(fd[1], line, ft_strlen(limiter));
 		}
