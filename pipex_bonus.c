@@ -86,7 +86,7 @@ void	here_doc(char *limiter, int ac)
 		{
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 				exit(0);
-			ft_putstr_fd(line, fd[1]);
+			write(fd[1], line, ft_strlen(limiter));
 		}
 	}
 	close(fd[1]);
