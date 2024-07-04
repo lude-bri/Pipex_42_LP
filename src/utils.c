@@ -67,7 +67,7 @@ void	execute(char *av, char **envp, int *fd)
 		ft_free(cmd);
 		ft_putstr_fd("command not found\n", 2);
 		ft_close(fd);
-		exit(127);
+		exit(EXIT_NOTFOUND);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{

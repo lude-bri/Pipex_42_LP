@@ -38,7 +38,7 @@ int	main(int ac, char **av, char **envp)
 	else
 	{
 		ft_putstr_fd("Not Valid! Try ./pipex file1 cmd1 cmd2 file2\n", 2);
-		exit (127);
+		exit (EXIT_INVALID);
 	}
 	return (1);
 }
@@ -53,7 +53,7 @@ void	child_process(char **av, int *fd, char **envp)
 	{
 		perror(av[1]);
 		ft_close(fd);
-		exit (127);
+		exit (EXIT_FAILURE);
 	}
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(fd_op, STDIN_FILENO);
@@ -70,7 +70,7 @@ void	parent_process(char **av, int *fd, char **envp)
 	{
 		perror(av[4]);
 		ft_close(fd);
-		exit (127);
+		exit (EXIT_FAILURE);
 	}
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd_op, STDOUT_FILENO);
