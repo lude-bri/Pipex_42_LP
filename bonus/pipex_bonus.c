@@ -13,7 +13,6 @@
 #include "../src/pipex.h"
 
 void	main_process(char **av, char **envp);
-void	here_doc(char *limiter, int ac);
 
 int	main(int ac, char **av, char **envp)
 {
@@ -58,38 +57,3 @@ void	main_process(char **av, char **envp)
 	dup2(fd[0], STDIN_FILENO);
 	waitpid(pid, NULL, 0);
 }
-/*
-void	here_doc(char *limiter, int ac)
-{
-	pid_t	reader;
-	int		fd[2];
-	char	*line;
-
-	if (ac < 6)
-		ft_putstr_fd("Not Valid!", 2);
-	if (pipe(fd) == -1)
-		perror("pipe");
-	reader = fork();
-	if (!reader)
-	{
-		close(fd[0]);
-		while (get_next_line(&line))
-		{
-			if (ft_strncmp(line, limiter, ft_strlen(line)) == 0)
-				exit(0);
-			write(fd[1], line, ft_strlen(limiter));
-		}
-	}
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	wait(0);
-}
-
-		if (ft_strncmp(av[1], "here_doc", 8) == 0)
-		{
-			i = 3;
-			fd_out = fd_open(av[ac -1], 0);
-			here_doc(av[3], ac);
-		}
-		else
-*/
