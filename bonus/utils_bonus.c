@@ -32,14 +32,12 @@ int	fd_open(char *file, int n)
 {
 	int	res;
 
-	if (n == 0)
-		res = open(file, O_RDONLY, 0777);
 	if (n == 1)
 		res = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (n == 2)
 		res = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (res == -1)
-		exit (0);
+		exit (EXIT_SUCCESS);
 	return (res);
 }
 
@@ -82,7 +80,7 @@ void	execute(char *av, char **envp, int *fd)
 		ft_free(cmd);
 		ft_putstr_fd("command not found\n", 2);
 		ft_close(fd);
-		exit(127);
+		exit(EXIT_NOTFOUND);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{

@@ -87,13 +87,13 @@ $(NAME): $(LIBFT_ARC) $(BUILD_PATH) $(OBJS) $(OBJS_BONUS) ## Compile Mandatory v
 	@echo "$(YEL)Compiling $(MAG)$(NAME)$(YEL) mandatory version$(D)"
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(NAME) -L $(LIBFT_PATH) -lft
 	@echo "[$(_SUCCESS) compiling $(MAG)$(NAME)$(D) $(YEL)🖔$(D)]"
-	make norm
+	@make --no-print-directory norm
 
 bonus:	all 	## Compile Bonus version
 	@echo "$(YEL)Compiling $(MAG)$(NAME)$(YEL) bonus version$(D)"
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS_BONUS) -o $(NAME) -L $(LIBFT_PATH) -lft
 	@echo "[$(_SUCCESS) compiling $(MAG)$(NAME)$(D) $(YEL)🖔$(D)]"
-	make norm_bonus
+	@make --no-print-directory norm_bonus
 
 deps:		## Download/Update deps
 	@if test ! -d "$(LIBFT_PATH)"; then make get_libft; \
@@ -119,7 +119,7 @@ $(TEMP_PATH):
 	@echo "* $(YEL)Creating $(CYA)$(TEMP_PATH)$(YEL) folder:$(D) $(_SUCCESS)"
 
 $(LIBFT_ARC):
-	$(MAKE) $(LIBFT_PATH)
+	@$(MAKE) $(LIBFT_PATH)
 
 get_libft:
 	@echo "* $(CYA)Getting Libft submodule$(D)]"
