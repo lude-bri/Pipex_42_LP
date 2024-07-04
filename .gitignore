@@ -35,9 +35,6 @@
 *.i*86
 *.x86_64
 *.hex
-push_swap
-*/randgen
-checker
 
 # Debug files
 *.dSYM/
@@ -46,19 +43,11 @@ checker
 *.pdb
 gdb.txt
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
-
 #folders
 .build
 .temp
 lib
+manual
 
 # temp
 norm.txt

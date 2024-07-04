@@ -31,7 +31,7 @@ int	main(int ac, char **av, char **envp)
 		dup2(fd_out, STDOUT_FILENO);
 		execute(av[ac - 2], envp, NULL);
 	}
-	ft_putstr_fd("Not Valid!", 2);
+	ft_putstr_fd("Error! Try it ./pipex file1 cmd1 cmd2 cmdn cmd3 file2", 2);
 }
 
 void	main_process(char **av, char **envp)

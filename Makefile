@@ -9,7 +9,7 @@ SHELL	:= bash
 # Default test values
 ARG			?=
 N_OK		= 0
-N_KO		:= $(N_TESTS) - $(N_OK)
+N_KO		= 0 
 
 #==============================================================================#
 #                                     NAMES                                    #
@@ -188,6 +188,7 @@ test_all:		## Test all
 	@make --no-print-directory test_subject
 	@make --no-print-directory test_invalid
 	@make --no-print-directory test_valid
+	@make --no-print-directory test_bonus
 	@make --no-print-directory results
 
 test_subject:		## Test subject
@@ -287,10 +288,16 @@ test_valid:	## Test valid
 	@echo "$(YEL)$(_SEP)$(D)"
 	@echo "[$(YEL)Test Valid Input:$(D)]"
 	@echo "$(YEL)$(_SEP)$(D)"
-
+	@for f in $(TEMP_PATH)/*.txt; do \
+		if [ -f "$$f" ]; then \
+			rm $(TEMP_PATH)/*.txt; \
+			break; \
+		fi \
+	done
+	@touch $(TXT)
 	@echo "$(YEL)$(_SEP)$(D)"
 	@echo "[$(YEL)Test 1. Word Count && List $(D)]"
-	@echo "$(BLU)P✌️ipex:$(D)"
+	@echo "$(BLU)Pipex:$(D)"
 	./$(NAME) "$(TEMP_PATH)/file1.txt" ls wc "$(TEMP_PATH)/pipex_out.txt"
 	@cat $(TEMP_PATH)/pipex_out.txt
 	@echo "$(BLU)Original:$(D)"
@@ -334,7 +341,7 @@ test_valid:	## Test valid
 	@sleep 1
 
 	@echo "[$(YEL)Test 5. Head -5 && CAT $(D)]"
-		@echo "$(BLU)Pipex:$(D)"
+	@echo "$(BLU)Pipex:$(D)"
 	./$(NAME) Makefile "head -5" "cat" "$(TEMP_PATH)/pipex_out.txt"
 	@cat $(TEMP_PATH)/pipex_out.txt
 	@echo "$(BLU)Original:$(D)"
@@ -396,6 +403,132 @@ test_valid:	## Test valid
 	@echo "$(YEL)$(_SEP)$(D)"
 	@sleep 1
 
+test_bonus: ## Test Bonus
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test Bonus:$(D)]"
+	@echo "$(YEL)$(_SEP)$(D)"
+
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 1. PS, Grep, Sort && WC$(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "ps" "grep user" "sort -k 2" "wc -l" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt ps | grep "user" | sort -k 2 | wc -l > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
+
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 2.Find, Grep && Sort$(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "find . -type f" "grep pipe" "sort" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt find . -type f | grep 'pipe' | sort > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
+
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 3.  LS, Grep, Sort && WC$(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "ls -l" "grep ^d" "sort -k 9" "wc -l" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt ls -l | grep "^d" | sort -k 9 | wc -l > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
+
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 4. Du, Sort, Head && WC$(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "du -sh" "sort -hr" "head -5" "wc -l" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt du -sh | sort -hr | head -5 | wc -l > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
+
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 5. LS, Head && Tail$(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "ls" "head -1" "tail -1" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt ls | head -1 | tail -10 > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
+	
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 6. Find, Grep, Sort && Head$(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "find . -type f" "grep .sh" "sort" "head -10" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt find . -type f | grep ".sh" | sort | head -10 > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
+	
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 7.  Grep, Sort, Uniq && WC$(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "grep error" "sort" "uniq -c" "wc -l" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt grep "error" | sort | uniq -c | wc -l > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
+		
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 8. Du, Grep, Sort, and Tail$(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "du -sh" "grep K" "sort -h" "tail -5" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt du -sh | grep "K" | sort -h | tail -5 > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
+	
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 9. LS, Grep, Sort, and Head $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "ls -l" "grep ^-" "sort -k 5 -n" "head -10" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt ls -l | grep "^-" | sort -k 5 -n | head -10 > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
+	
+	@echo "$(YEL)$(_SEP)$(D)"
+	@echo "[$(YEL)Test 10. Find, Grep, Sort && Unique $(D)]"
+	@echo "$(BLU)Pipex:$(D)"
+	./$(NAME) "$(TEMP_PATH)/file1.txt" "find . -type f" "grep .txt" "sort" "uniq" "$(TEMP_PATH)/pipex_out.txt"
+	@cat $(TEMP_PATH)/pipex_out.txt
+	@echo "$(BLU)Original:$(D)"
+	< $(TEMP_PATH)/file1.txt find . -type f | grep ".txt" | sort | uniq > $(TEMP_PATH)/og_out.txt
+	@cat $(TEMP_PATH)/og_out.txt
+	@make --no-print-directory diff
+	@echo "$(YEL)$(_SEP)$(D)"
+	@sleep 1
+	@make --no-print-directory results
+	
 diff:
 	@if diff $(TEMP_PATH)/pipex_out.txt $(TEMP_PATH)/og_out.txt; then \
 		echo "$(GRN)Test passed!!👌$(D)" | tee -a $(TEMP_PATH)/out_ok.txt; \
