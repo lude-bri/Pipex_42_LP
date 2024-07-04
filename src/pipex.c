@@ -9,7 +9,7 @@
 /*   Updated: 2024/06/27 15:38:09 by luigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+//write manual
 #include "pipex.h"
 
 void	child_process(char **av, int *fd, char **envp);
