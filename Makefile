@@ -1,3 +1,4 @@
+
 #==============================================================================#
 #                                  MAKE CONFIG                                 #
 #==============================================================================#
@@ -39,15 +40,16 @@ LIBFT_PATH		= $(LIBS_PATH)
 
 FILES	= pipex.c
 FILES	+= utils.c
-#FILES	+= utils.c
-#FILES	+= pipex.h
+FILES_BONUS	+= pipex_bonus.c
+FILES_BONUS	+= utils_bonus.c
 
 TXT_NAMES = file1.txt og_out.txt pipex_out.txt out_ok.txt out_ko.txt
 
-
 SRC		= $(addprefix $(SRC_PATH)/, $(FILES))
+SRC_BONUS		= $(addprefix $(SRC_PATH)/, $(FILES_BONUS))
 
 OBJS	= $(SRC:$(SRC_PATH)/%.c=$(BUILD_PATH)/%.o)
+OBJS_BONUS	= $(SRC_BONUS:$(SRC_PATH)/%.c=$(BUILD_PATH)/%.o)
 
 TXT		= $(addprefix $(TEMP_PATH)/, $(TXT_NAMES))
 
@@ -80,9 +82,15 @@ MKDIR_P	= mkdir -p
 
 all: deps $(BUILD_PATH) $(NAME) ## Compile Mandatory version
 
-$(NAME): $(LIBFT_ARC) $(BUILD_PATH) $(OBJS)			## Compile Mandatory version
+$(NAME): $(LIBFT_ARC) $(BUILD_PATH) $(OBJS) $(OBJS_BONUS) ## Compile Mandatory version
 	@echo "$(YEL)Compiling $(MAG)$(NAME)$(YEL) mandatory version$(D)"
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) -o $(NAME) -L $(LIBFT_PATH) -lft
+	@echo "[$(_SUCCESS) compiling $(MAG)$(NAME)$(D) $(YEL)🖔$(D)]"
+	make norm
+
+bonus:	all		## Compile Bonus version
+	@echo "$(YEL)Compiling $(MAG)$(NAME)$(YEL) bonus version$(D)"
+	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS_BONUS) -o $(NAME) -L $(LIBFT_PATH) -lft
 	@echo "[$(_SUCCESS) compiling $(MAG)$(NAME)$(D) $(YEL)🖔$(D)]"
 	make norm
 

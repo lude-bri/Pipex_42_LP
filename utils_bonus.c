@@ -27,20 +27,3 @@ int	fd_open(char *file, int n)
 	return (res);
 }
 
-void	ft_close(int *fd)
-{
-	close(fd[0]);
-	close(fd[1]);
-}
-
-void	ft_free(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		free (str[i++]);
-	free (str);
-}
-
-

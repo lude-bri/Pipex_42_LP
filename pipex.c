@@ -14,7 +14,6 @@
 
 void	child_process(char **av, int *fd, char **envp);
 void	parent_process(char **av, int *fd, char **envp);
-void	execute(char *av, char **envp, int *fd);
 
 int	main(int ac, char **av, char **envp)
 {
@@ -76,26 +75,4 @@ void	parent_process(char **av, int *fd, char **envp)
 	dup2(fd[0], STDIN_FILENO);
 	dup2(fd_op, STDOUT_FILENO);
 	execute(av[3], envp, fd);
-}
-
-void	execute(char *av, char **envp, int *fd)
-{
-	char	**cmd;
-	char	*path;
-
-	cmd = ft_split(av, ' ');
-	path = find_path(cmd[0], envp);
-	if (!path)
-	{
-		ft_free(cmd);
-		ft_putstr_fd("command not found\n", 2);
-		ft_close(fd);
-		exit(127);
-	}
-	if (execve(path, cmd, envp) == -1)
-	{
-		ft_free(cmd);
-		ft_close(fd);
-		exit(EXIT_FAILURE);
-	}
 }

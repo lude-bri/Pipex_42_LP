@@ -54,3 +54,26 @@ char	*find_path(char *cmd, char **envp)
 	}
 	return (ft_free(full_path), NULL);
 }
+
+void	execute(char *av, char **envp, int *fd)
+{
+	char	**cmd;
+	char	*path;
+
+	cmd = ft_split(av, ' ');
+	path = find_path(cmd[0], envp);
+	if (!path)
+	{
+		ft_free(cmd);
+		ft_putstr_fd("command not found\n", 2);
+		ft_close(fd);
+		exit(127);
+	}
+	if (execve(path, cmd, envp) == -1)
+	{
+		ft_free(cmd);
+		ft_close(fd);
+		exit(EXIT_FAILURE);
+	}
+}
+

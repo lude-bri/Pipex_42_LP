@@ -23,28 +23,26 @@ int	main(int ac, char **av, char **envp)
 
 	if (ac >= 5)
 	{
-		if (ft_strncmp(av[1], "here_doc", 8) == 0)
+		/*if (ft_strncmp(av[1], "here_doc", 8) == 0)
 		{
 			i = 3;
 			fd_out = fd_open(av[ac - 1], 0);
 			here_doc(av[3], ac);
 		}
-		else
-		{
-			i = 2;
-			fd_in = fd_open(av[1], 2);
-			fd_out = fd_open(av[ac -1], 1);
-			dup2(fd_in, STDIN_FILENO);
-		}
+		else*/
+		i = 2;
+		fd_in = fd_open(av[1], 2);
+		fd_out = fd_open(av[ac -1], 1);
+		dup2(fd_in, STDIN_FILENO);
 		while (i < ac - 2)
-			main_process(av[i++], envp);
+			main_process(&av[i++], envp);
 		dup2(fd_out, STDOUT_FILENO);
-		execute(av[ac - 2], envp);
+		execute(av[ac - 2], envp, NULL);
 	}
 	ft_putstr_fd("Not Valid!", 2);
 }
 
-void	main_process(char *av, char **envp)
+void	main_process(char **av, char **envp)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -61,13 +59,13 @@ void	main_process(char *av, char **envp)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
-		execute(av, envp, fd);
+		execute(*av, envp, fd);
 	}
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	waitpid(pid, NULL, 0);
 }
-
+/*
 void	here_doc(char *limiter, int ac)
 {
 	pid_t	reader;
@@ -93,3 +91,4 @@ void	here_doc(char *limiter, int ac)
 	dup2(fd[0], STDIN_FILENO);
 	wait(0);
 }
+*/
