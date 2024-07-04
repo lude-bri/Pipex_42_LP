@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../src/pipex.h"
 
 void	main_process(char **av, char **envp);
 void	here_doc(char *limiter, int ac);
@@ -23,13 +23,6 @@ int	main(int ac, char **av, char **envp)
 
 	if (ac >= 5)
 	{
-		/*if (ft_strncmp(av[1], "here_doc", 8) == 0)
-		{
-			i = 3;
-			fd_out = fd_open(av[ac - 1], 0);
-			here_doc(av[3], ac);
-		}
-		else*/
 		i = 2;
 		fd_in = fd_open(av[1], 2);
 		fd_out = fd_open(av[ac -1], 1);
@@ -91,4 +84,12 @@ void	here_doc(char *limiter, int ac)
 	dup2(fd[0], STDIN_FILENO);
 	wait(0);
 }
+
+		if (ft_strncmp(av[1], "here_doc", 8) == 0)
+		{
+			i = 3;
+			fd_out = fd_open(av[ac -1], 0);
+			here_doc(av[3], ac);
+		}
+		else
 */

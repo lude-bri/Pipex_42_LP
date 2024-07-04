@@ -31,7 +31,8 @@ _SEP 			= =====================
 #                                    PATHS                                     #
 #==============================================================================#
 
-SRC_PATH		= .
+SRC_PATH		= src
+BONUS_PATH		= bonus
 LIBS_PATH		= lib
 BUILD_PATH		= .build
 TEMP_PATH		= .temp
@@ -46,10 +47,10 @@ FILES_BONUS	+= utils_bonus.c
 TXT_NAMES = file1.txt og_out.txt pipex_out.txt out_ok.txt out_ko.txt
 
 SRC		= $(addprefix $(SRC_PATH)/, $(FILES))
-SRC_BONUS		= $(addprefix $(SRC_PATH)/, $(FILES_BONUS))
+SRC_BONUS		= $(addprefix $(BONUS_PATH)/, $(FILES_BONUS))
 
 OBJS	= $(SRC:$(SRC_PATH)/%.c=$(BUILD_PATH)/%.o)
-OBJS_BONUS	= $(SRC_BONUS:$(SRC_PATH)/%.c=$(BUILD_PATH)/%.o)
+OBJS_BONUS	= $(SRC_BONUS:$(BONUS_PATH)/%.c=$(BUILD_PATH)/%.o)
 
 TXT		= $(addprefix $(TEMP_PATH)/, $(TXT_NAMES))
 
@@ -88,11 +89,11 @@ $(NAME): $(LIBFT_ARC) $(BUILD_PATH) $(OBJS) $(OBJS_BONUS) ## Compile Mandatory v
 	@echo "[$(_SUCCESS) compiling $(MAG)$(NAME)$(D) $(YEL)🖔$(D)]"
 	make norm
 
-bonus:	all		## Compile Bonus version
+bonus:	all 	## Compile Bonus version
 	@echo "$(YEL)Compiling $(MAG)$(NAME)$(YEL) bonus version$(D)"
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS_BONUS) -o $(NAME) -L $(LIBFT_PATH) -lft
 	@echo "[$(_SUCCESS) compiling $(MAG)$(NAME)$(D) $(YEL)🖔$(D)]"
-	make norm
+	make norm_bonus
 
 deps:		## Download/Update deps
 	@if test ! -d "$(LIBFT_PATH)"; then make get_libft; \
@@ -102,6 +103,10 @@ deps:		## Download/Update deps
 -include $(BUILD_PATH)/%.d
 
 $(BUILD_PATH)/%.o: $(SRC_PATH)/%.c
+	@echo -n "$(MAG)█$(D)"
+	$(CC) $(CFLAGS) $(DFLAGS) -MMD -MP -c $< -o $@
+
+$(BUILD_PATH)/%.o: $(BONUS_PATH)/%.c
 	@echo -n "$(MAG)█$(D)"
 	$(CC) $(CFLAGS) $(DFLAGS) -MMD -MP -c $< -o $@
 
@@ -149,6 +154,26 @@ norm: $(TEMP_PATH)		## Run norminette test on source files
 		printf "[$(YEL)Everything is OK$(D)]\n"; \
 	fi
 	@echo "$(CYA)$(_SEP)$(D)"
+
+norm_bonus: 		## Run norminette test on chcker files
+	@printf "${_NORM}: $(YEL)$(BONUS_PATH)$(D)\n"
+	@ls $(BONUS_PATH) | wc -l > $(TEMP_PATH)/norm_ls.txt
+	@printf "$(_NORM_INFO) $$(cat $(TEMP_PATH)/norm_ls.txt)\n"
+	@printf "$(_NORM_SUCCESS) "
+	@norminette $(BONUS_PATH) | grep -wc "OK" > $(TEMP_PATH)/norm.txt; \
+	if [ $$? -eq 1 ]; then \
+		echo "0" > $(TEMP_PATH)/norm.txt; \
+	fi
+	@printf "$$(cat $(TEMP_PATH)/norm.txt)\n"
+	@if ! diff -q $(TEMP_PATH)/norm_ls.txt $(TEMP_PATH)/norm.txt > /dev/null; then \
+		printf "$(_NORM_ERR) "; \
+		norminette $(BONUS_PATH) | grep -v "OK"> $(TEMP_PATH)/norm_err.txt; \
+		cat $(TEMP_PATH)/norm_err.txt | grep -wc "Error:" > $(TEMP_PATH)/norm_errn.txt; \
+		printf "$$(cat $(TEMP_PATH)/norm_errn.txt)\n"; \
+		printf "$$(cat $(TEMP_PATH)/norm_err.txt)\n"; \
+	else \
+		printf "[$(YEL)Everything is OK$(D)]\n"; \
+	fi
 
 check_ext_func: all		## Check for external functions
 	@echo "[$(YEL)Checking for external functions$(D)]"
