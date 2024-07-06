@@ -1,5 +1,7 @@
 ///
-///PIPEX.C - MANUAL
+///
+///
+//PIPEX.C - MANUAL
 ///
 ///
 ///
