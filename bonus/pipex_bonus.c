@@ -9,7 +9,7 @@
 /*   Updated: 2024/07/02 14:21:42 by luigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+//write manual 
 #include "../src/pipex.h"
 
 void	main_process(char **av, char **envp);
