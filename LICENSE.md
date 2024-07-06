@@ -1,6 +1,5 @@
 ## LICENSE
 
-
 This is a free work delivered for educational purposes during the main course at 42 <42.fr>.
 
 Feel free to use it, change it, give advices, send me a pull request or just slack me if you want to share some thoughts.
