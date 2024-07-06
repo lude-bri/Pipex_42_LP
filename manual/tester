@@ -1,0 +1,184 @@
+#######################################
+#                                     #
+#   PIPEX       TESTING_MANUAL        #
+#   by lude-bri                       #
+#                                     #
+#######################################
+
+
+1. Subject tests
+
+    Test 1. LS
+        ORIGINAL - < infile ls -l |  wc -l > outfile    
+        PIPEX - ./pipex infile "ls -l" "wc -l" outfile
+
+        Explanation: This test checks the number of lines in the detailed listing of the directory contents provided by `ls -l`. The `wc -l` command counts these lines.
+
+    Test 2. GREP 
+        ORIGINAL - < infile grep a1 |  wc -w > outfile    
+        PIPEX - ./pipex infile "grep a1" "wc -w" outfile
+
+        Explanation: This test searches for the string "a1" in the input file and counts the number of words in the resulting lines using `wc -w`.
+
+2. Invalid tests
+
+    Test 1. No arguments
+        ORIGINAL -  
+        PIPEX - ./pipex
+
+        Explanation: This test checks how the program handles the case where no arguments are provided, which is expected to produce an error.
+
+    Test 2. Few arguments
+        ORIGINAL - ls
+        PIPEX - ./pipex ls
+
+        Explanation: This test evaluates the program's response to insufficient arguments, which should also result in an error.
+
+    Test 3. Wrong few arguments
+        ORIGINAL - lol
+        PIPEX - ./pipex lol
+
+        Explanation: This test checks the behavior when a non-existent command is provided as an argument, which should trigger an error.
+
+    Test 4. Wrong arguments
+        ORIGINAL - < infile lol1 | lol2 > outfile
+        PIPEX - ./pipex infile lol1 lol2 outfile
+
+        Explanation: This test involves using invalid commands and checks whether the program correctly handles and reports the error.
+
+    Test 5. Multiple wrong arguments
+        ORIGINAL - < infile ls -lol | wc -lol > outfile
+        PIPEX - ./pipex infile "ls -lol" "wc -lol" outfile
+
+        Explanation: This test uses invalid flags with valid commands to see if the program can handle incorrect usage properly.
+
+    Test 6. Out of scope arguments
+        ORIGINAL - < Makefile grep $ | 'awk '{ if (length($0) > max) max = length($0) } END { print max }'
+        PIPEX - ./pipex Makefile "grep $" "'awk '{ if (length($0) > max) max = length($0) } END { print max }'" outfile.txt
+
+        Explanation: This test provides complex and nested commands to ensure the program can handle more advanced and potentially out-of-scope commands.
+
+3. Valid tests
+
+    Test 1. Word Count && List
+        ORIGINAL - < infile ls | wc > outfile    
+        PIPEX - ./pipex infile ls wc outfile
+
+        Explanation: This test lists the contents of the directory and counts the number of words, lines, and characters in the output.
+
+    Test 2. GREP && Word Count
+        ORIGINAL - < Makefile grep $ | wc > outfile    
+        PIPEX - ./pipex Makefile "grep $" wc outfile
+
+        Explanation: This test searches for the `$` symbol in a Makefile and then counts the words, lines, and characters in the search results.
+
+    Test 3. Head -5 && Word Count - List
+        ORIGINAL - < Makefile head -5 | wc -l > outfile    
+        PIPEX - ./pipex Makefile "head -5" "wc -l" outfile
+
+        Explanation: This test retrieves the first five lines of the Makefile and counts the number of lines in that selection.
+
+    Test 4. Tail -2 && Word Count - List
+        ORIGINAL - < Makefile tail -2 | wc -l > outfile    
+        PIPEX - ./pipex Makefile "tail -2" "wc -l" outfile
+
+        Explanation: This test captures the last two lines of the Makefile and counts them.
+
+    Test 5. Head -5 && CAT 
+        ORIGINAL - < Makefile head -5 | cat > outfile    
+        PIPEX - ./pipex Makefile "head -5" cat outfile
+
+        Explanation: This test takes the first five lines of the Makefile and outputs them directly to the specified file using `cat`.
+
+    Test 6. Hostname && cat
+        ORIGINAL - < infile hostname | cat > outfile    
+        PIPEX - ./pipex infile "hostname" "cat" outfile
+
+        Explanation: This test captures the system's hostname and writes it to the output file.
+
+    Test 7. PS && GREP
+        ORIGINAL - < infile ps | grep PID > outfile    
+        PIPEX - ./pipex infile ps "grep PID" outfile
+
+        Explanation: This test lists the current processes and filters the output to show only the lines containing "PID".
+
+    Test 8. DU && SORT
+        ORIGINAL - < infile du -h | sort -h > outfile    
+        PIPEX - ./pipex infile "du -h" "sort -h" outfile
+
+        Explanation: This test checks the disk usage of files and directories in a human-readable format and sorts the output.
+
+    Test 9. SLEEP 5 && SLEEP 5
+        ORIGINAL - < infile sleep 5 | sleep 5 > outfile    
+        PIPEX - ./pipex infile "sleep 5" "sleep 5" outfile
+
+        Explanation: This test introduces a delay of 5 seconds twice to test handling of commands that involve waiting.
+
+    Test 10. /DEV/URANDOM && cat && head -5
+        ORIGINAL - < /dev/urandom cat | head -5 > outfile    
+        PIPEX - ./pipex "/dev/urandom" "cat" "head -5" outfile
+
+        Explanation: This test generates random data, pipes it to `cat`, and then retrieves the first five lines of that data.
+
+
+4. Complex Pipeline Tests
+
+	Test 1. PS, Grep, Sort, and WC
+        ORIGINAL - < infile ps aux | grep "user" | sort -k 2 | wc -l > outfile
+        PIPEX - ./pipex infile "ps aux" "grep user" "sort -k 2" "wc -l" outfile
+
+        Explanation: This test lists processes, filters by "user", sorts the results, and counts the lines.
+
+    Test 2. Find, Grep and Sort
+		ORIGINAL - < infile find . -type f | grep ".txt" | sort | uniq > outfile
+        PIPEX - ./pipex infile "find . -type f" "grep .txt" "sort" "uniq" outfile
+
+        Explanation: This test searches for all files, filters for those ending in ".txt", sorts them, and removes duplicates.
+
+	Test 3. LS, Grep, Sort, and WC
+        ORIGINAL - < infile ls -l | grep "^d" | sort -k 9 | wc -l > outfile
+        PIPEX - ./pipex infile "ls -l" "grep ^d" "sort -k 9" "wc -l" outfile
+
+        Explanation: This test lists directory contents, filters directories, sorts by name, and counts the number of directories.
+
+    Test 4. Du, Sort, Head, and WC
+        ORIGINAL - < infile du -sh * | sort -hr | head -5 | wc -l > outfile
+        PIPEX - ./pipex infile "du -sh *" "sort -hr" "head -5" "wc -l" outfile
+
+        Explanation: This test checks disk usage, sorts by size, takes the top 5 entries, and counts the number of lines.
+
+    Test 5. LS, Head and Tail
+        ORIGINAL - < infile ls head -1 | tail -1 > outfile
+        PIPEX - ./pipex infile "ls" "head -1" "tail -1" outfile
+
+        Explanation: This test list directory contents, takes the first line, then the last one.
+
+    Test 6. Find, Grep, Sort, and Head
+        ORIGINAL - < infile find . -type f | grep ".sh" | sort | head -10 > outfile
+        PIPEX - ./pipex infile "find . -type f" "grep .sh" "sort" "head -10" outfile
+
+        Explanation: This test searches for files, filters for those ending in ".sh", sorts them, and takes the first 10 results.
+
+    Test 7. Grep, Sort, Uniq, and WC
+        ORIGINAL - < infile grep "error" | sort | uniq -c | wc -l > outfile
+        PIPEX - ./pipex infile "grep error" "sort" "uniq -c" "wc -l" outfile
+
+        Explanation: This test searches for lines containing "error", sorts them, counts unique occurrences, and counts the lines.
+
+    Test 8. Du, Grep, Sort, and Tail
+        ORIGINAL - < infile du -sh * | grep "K" | sort -h | tail -5 > outfile
+        PIPEX - ./pipex infile "du -sh *" "grep K" "sort -h" "tail -5" outfile
+
+        Explanation: This test checks disk usage, filters for sizes in kilobytes, sorts them, and takes the last 5 entries.
+
+    Test 9. LS, Grep, Sort, and Head
+        ORIGINAL - < infile ls -l | grep "^-" | sort -k 5 -n | head -10 > outfile
+        PIPEX - ./pipex infile "ls -l" "grep ^-" "sort -k 5 -n" "head -10" outfile
+
+        Explanation: This test lists files, filters regular files, sorts by size, and takes the first 10 entries.
+
+	Test 10. Find, Grep, Sort, and Unique
+        ORIGINAL - < infile find . -type f | grep ".txt" | sort | uniq > outfile
+        PIPEX - ./pipex infile "find . -type f" "grep .txt" "sort" "uniq" outfile
+
+        Explanation: This test searches for all files, filters for those ending in ".txt", sorts them, and removes duplicates.
