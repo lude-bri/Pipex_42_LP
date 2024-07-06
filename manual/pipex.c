@@ -14,6 +14,8 @@
 ///RETURN - meaning the returning value of that function
 ///
 ///
+///
+///PROJECT OBJECTIVE
 ///Pipex simulate the usage of pipes in shell
 ///
 ///      ./pipex file1 cmd1 cmd2 file2
