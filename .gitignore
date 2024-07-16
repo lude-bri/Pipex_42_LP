@@ -47,6 +47,8 @@ gdb.txt
 .build
 .temp
 lib
+html/
+latex/
 
 # temp
 norm.txt
