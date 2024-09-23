@@ -9,23 +9,12 @@
 /*   Updated: 2024/06/27 15:38:09 by luigi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-/**
-* @defgroup pipex Pipex main function
-* @{
-*
-* @brief Pipes bruh!
-* */
 
 #include "pipex.h"
 
 void	child_process(char **av, int *fd, char **envp);
 void	parent_process(char **av, int *fd, char **envp);
 
-/// @brief 
-/// @param	ac	sdfg
-/// @var fd		dfhg
-/// @return	SUCCESS(0)
-/// @return	FAILURE(1)
 int	main(int ac, char **av, char **envp)
 {
 	int		fd[2];
@@ -87,5 +76,3 @@ void	parent_process(char **av, int *fd, char **envp)
 	dup2(fd_op, STDOUT_FILENO);
 	execute(av[3], envp, fd);
 }
-
-/** @} */
