@@ -4,90 +4,65 @@
 //PIPEX.C - MANUAL
 ///
 ///
-///
-///How to use the manual:
-///
-///BEGIN - is the begining of the main function
-///END - is the end of the main function
-///ENTER - meaning that the following lines will be inside the function
-///CALL - meaning that the fucntion will me called by the system, will be activated.
-///DECLARE - meaning that variables are created
-///ATTRIBUTE - meaning that the variable will receive a value
-///RETURN - meaning the returning value of that function
-///
-///
-///PROJECT OBJECTIVE
-///Pipex simulate the usage of pipes in shell
-///
-///      ./pipex file1 cmd1 cmd2 file2
-///				MUST BEHAVE LIKE
-///		  < file1 cmd1 | cmd2 > file2
-///
-///Functions used in pipex.c
+/*
+	main
 
-void	child_process(char **av, int *fd, char **envp);
-void	parent_process(char **av, int *fd, char **envp);
-int		main(int ac, char **av, char **envp);
-///
-///
-int	main(int ac, char **av, char **envp);
-///MAIN function
-///BEGIN
-///DECLARE variable int* called fd, contains 2 files descriptors because pipe uses 2 fdS
-///DECLARE variable pid_t called pid, the process identification to work on processes after fork()
-///
-///ENTER IF our arguments count is equals 5. Which means that everything is correct (.pipex/ file1 cmd1 cmd2 file2)
-///		
-///		CALL function pipe() to create pipe with the 2 files descriptors given (fd[0] - read / fd[1] - write)
-///		ENTER IF during the creation of the pipe something went wrong
-///			CALL function perror() to Print error saying "pipe"
-///		ATTRIBUTE to variable pid the return value of fork() function, creating thus two processes
-///		ENTER IF the pid variable value is equals -1 (error)
-///			CALL function perror() to print error saying "fork" with perror function.
-///			CALL function ft_close() to close arrays (fd[0] and fd[1])
-///		ENTER ELSE IF the pid variable value is equals to 0 (means this is the child process)
-///			CALL function child_process();
-///		CALL function parent_process();
-///		
-///ENTER ELSE our arguments count is not equals 5. Which means error
-///
-///		CALL function ft_putstr_fd() to print in the fd our str "Not Valid..."
-///		CALL function exit() to exit the process, returns EXIT_INVALID (1)
-///
-///RETURN number 1, the standard output
-///END
-///
-///CHILD_PROCESS function
-void	child_process(char **av, int *fd, char *envp);
-///BEGIN
-///DECLARE variable int called fd_op, handle the opening of our file argument
-///
-///CALL function close() to close the end READ (fd[0]) of the pipe
-///ATTRIBUTE to fd_op variable the return value of open() function that will open file1 (av[1]), to read only (O_RDONLY), with all permitions (0777)
-///ENTER IF the fd_op value is equal -1 (means that an error occurred during the opening process)
-///			CALL function perror() to print error saying the name of the file1 (av[1]) with perror function.
-///			CALL function ft_close() to close arrays (fd[0] and fd[1])
-///			CALL function exit() to exit the process, returns EXIT_FAILURE (128)
-///CALL function dup2() to change the file descriptor of standard output to fd[1], meaning that child will not write to the terminal, but to the pipe's write gate (fd[1])
-///CALL function dup2() to change the file descriptor of standard input to fd_op, meaning that child will not read from the terminal, but from the opened file1 (fd_op)
-///CALL function execute() to execute the command sended (av[2])
-///END
-///
-///
-///PARENT_PROCESS function
-///
-void	parent_process(char **av, int *fd, char *envp);
-///BEGIN
-////DECLARE variable int called fd_op, handle the opening of our file argument
-///
-///CALL function close() to close the end WRITE (fd[1]) of the pipe
-///ATTRIBUTE to fd_op variable the return value of open() function that will open file2 (av[4]), to write only (O_WRONLY), if doesnt exit create it (O_CREAT) OR truncate it if there is already something there (O_TRUNC) with all permitions (0777)
-///ENTER IF the fd_op value is equal -1 (means that an error occurred during the opening process)
-///			CALL function perror() to print error saying the name of the file2 (av[4]) with perror function.
-///			CALL function ft_close() to close arrays (fd[0] and fd[1])
-///			CALL function exit() to exit the process, returns EXIT_FAILURE (128)
-///CALL function dup2() to change the file descriptor of standard input to fd[0], meaning that parent will not read from the terminal, but to the pipe's read gate (fd[0])
-///CALL function dup2() to change the file descriptor of standard output to fd_op, meaning that parent will not write to the terminal, but to the opened file2 (fd_op)
-///CALL function execute() to execute the command sended (av[3])
-///END
-///
+	This program emulates a simple version of the Unix `pipe` system call. It takes four command-line arguments:
+		- `file1`: The input file.
+		- `cmd1`: The first command to execute.
+		- `cmd2`: The second command to execute.
+		- `file2`: The output file.
+	
+	- The program creates a pipe and forks a child process to execute `cmd1`. The output of `cmd1` is passed through the pipe.
+	- The parent process executes `cmd2`, which takes the output of `cmd1` from the pipe and writes the result to `file2`.
+
+	- Parameters:
+		- `ac`: The number of command-line arguments.
+		- `av`: The array of command-line arguments.
+		- `envp`: The environment variables passed to the child and parent processes.
+	
+	- If the number of arguments is not 5, the program displays an error message and exits.
+	
+	- The pipe (`fd`) is used to create a communication channel between the child and parent processes.
+	- `fork()` is used to create a child process. The child process executes `cmd1`, and the parent process executes `cmd2`.
+
+	- The program handles errors for `pipe`, `fork`, and file operations (e.g., opening files).
+*/
+/*
+	child_process
+
+	This function handles the child process, which executes the first command (`cmd1`).
+
+	- Parameters:
+		- `av`: Command-line arguments (to access file1 and cmd1).
+		- `fd`: File descriptors for the pipe.
+		- `envp`: Environment variables passed to `execve`.
+	
+	- The child process:
+		- Closes the read end of the pipe (`fd[0]`).
+		- Opens `file1` (the input file) for reading.
+		- Redirects the output (`STDOUT_FILENO`) to the write end of the pipe (`fd[1]`).
+		- Redirects the input (`STDIN_FILENO`) to `file1`.
+		- Executes `cmd1` using `execve` (via the `execute` function).
+	
+	- If any file operations (e.g., opening `file1`) fail, an error is printed, and the process exits with `EXIT_FAILURE`.
+*/
+/*
+	parent_process
+
+	This function handles the parent process, which executes the second command (`cmd2`).
+
+	- Parameters:
+		- `av`: Command-line arguments (to access file2 and cmd2).
+		- `fd`: File descriptors for the pipe.
+		- `envp`: Environment variables passed to `execve`.
+	
+	- The parent process:
+		- Closes the write end of the pipe (`fd[1]`).
+		- Opens `file2` (the output file) for writing (creates/truncates the file).
+		- Redirects the input (`STDIN_FILENO`) to the read end of the pipe (`fd[0]`).
+		- Redirects the output (`STDOUT_FILENO`) to `file2`.
+		- Executes `cmd2` using `execve` (via the `execute` function).
+	
+	- If any file operations (e.g., opening `file2`) fail, an error is printed, and the process exits with `EXIT_FAILURE`.
+*/
